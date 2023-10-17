@@ -1,0 +1,7 @@
+<ul>
+{% for backpack in backpacks %}
+  <li><a href=backpacks/{{ backpack.name | slugify }}>{{ backpack.name }}</a></li>
+{% else %}
+  <li>This would display if the 'backpack' collection were empty</li>
+{% endfor %}
+</ul>
