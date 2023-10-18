@@ -1,3 +1,4 @@
+const axios = require('axios');
 const crystallize = require('@crystallize/js-api-client');
 
 const CrystallizeClient = crystallize.createClient({
@@ -17,71 +18,119 @@ const query = `
 `
 
 module.exports = async function () {
-  // const res = await CrystallizeClient.catalogueApi(query);
-  // console.log(res.catalogue.children[0]);
+  // const result = await fetch(
+  //   'https://api.crystallize.com/infoworks/catalogue',
+  //   {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       query: `
+  //         query ($language: String!, $path: String!) {
+  //           catalogue(language: $language, path: $path) {
+  //             children {
+  //               path
+  //               name
+  //               ... on Folder {
+  //                 name
+  //                 path
+  //                 children {
+  //                   ... on Product {
+  //                     variants {
+  //                       name
+  //                       price
+  //                       images {
+  //                         url
+  //                         altText
+  //                         key
+  //                       }
+  //                     }
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         } 
+  //         `,
+  //       variables: {
+  //         language: 'en',
+  //         path: `/`,
+  //       },
+  //     }),
+  //   },
+  // ).then((res) => res.json());
 
-  // return res.catalogue;
+  // const folders = result?.data?.catalogue?.children ?? [];
+  // // console.log(folders);
 
-  const result = await fetch(
-    'https://api.crystallize.com/infoworks/catalogue',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: `
-          query ($language: String!, $path: String!) {
-            catalogue(language: $language, path: $path) {
-              children {
-                path
+  // let products = [];
+
+  // folders.forEach(folder => {
+  //   // console.log(folder.children);
+  //   const productArray = folder?.children.map(variantsItem => {
+  //     return variantsItem.variants[0];
+  //   });
+
+  //   // add productArray items to products
+  //   const updatedProducts = [...products, ...productArray];
+  //   products = updatedProducts;
+  // });
+
+  // console.log(products);
+
+  // return products;
+
+  return axios({
+    method: 'post',
+    url: 'https://api.crystallize.com/infoworks/catalogue',
+    data: {
+      query: `
+        query ($language: String!, $path: String!) {
+          catalogue(language: $language, path: $path) {
+            children {
+              path
+              name
+              ... on Folder {
                 name
-                ... on Folder {
-                  name
-                  path
-                  children {
-                    ... on Product {
-                      variants {
-                        name
-                        price
-                        images {
-                          url
-                          altText
-                          key
-                        }
+                path
+                children {
+                  ... on Product {
+                    variants {
+                      name
+                      price
+                      images {
+                        url
+                        altText
+                        key
                       }
                     }
                   }
                 }
               }
             }
-          } 
-          `,
-        variables: {
-          language: 'en',
-          path: `/`,
-        },
-      }),
-    },
-  ).then((res) => res.json());
+          }
+        } 
+        `,
+      variables: {
+        language: 'en',
+        path: `/`,
+      },
+    }
+  }).then(res => {
+    const folders = res.data?.data?.catalogue?.children ?? [];
+    let products = [];
 
-  const folders = result?.data?.catalogue?.children ?? [];
-  console.log(folders);
+    folders.forEach(folder => {
+      const productArray = folder?.children.map(variantsItem => {
+        return variantsItem.variants[0];
+      });
 
-  let products = [];
-
-  folders.forEach(folder => {
-    // console.log(folder.children);
-    const productArray = folder?.children.map(variantsItem => {
-      return variantsItem.variants[0];
+      // add productArray items to products
+      const updatedProducts = [...products, ...productArray];
+      products = updatedProducts;
     });
 
-    // add productArray items to products
-    const updatedProducts = [...products, ...productArray];
-    products = updatedProducts;
+    return products;
   });
-
-  console.log(products);
-
-  return products;
 };
