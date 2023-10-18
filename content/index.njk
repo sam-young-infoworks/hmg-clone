@@ -1,15 +1,12 @@
 ---
 layout: layouts/base.njk
-eleventyNavigation:
-  key: HMG Home
-  order: 1
+bestSellingBackpacksCount: 3
 ---
 
-{%- css %}{% include "public/css/message-box.css" %}{% endcss %}
-<div class="hmg">
-  <h1>Best Selling Backpacks</h1>
+<div>
+  <h1>Best-Selling Backpacks</h1>
 
-  {# list of backpacks here #}
+  {% set backpacksList = backpacks.slice(0, bestSellingBackpacksCount)%}
   {% include "backpacks.njk" %}
 
   <p>Explore now pay later with Affirm</p>

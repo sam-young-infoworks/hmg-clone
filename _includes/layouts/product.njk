@@ -1,0 +1,28 @@
+{%- css %}{% include "public/css/components/product/product.css" %}{%- endcss %}
+
+{% set firstImage = product.images[0] %}
+{% set url = firstImage.url %}
+{% set altText = firstImage.altText %}
+
+<div class="product">
+    <div>
+        <image class="w-100" src={{ url }} alt={{ altText }}  />
+        {# {% image url, altText, [1800, 1200, 600, 280], "(max-width: 600px) 480px, 800px" %} #}
+    </div>
+    <div>
+        <h1>{{ product.name }}</h1>
+        <span>From ${{ product.price }}</span>
+        <p>Starting at $32/mo with Affirm.</p>
+        <p>Our preferred pack for backpacking in dense, heavily wooded trails in the roughest, toughest climates.</p>
+
+        <p>40L PACK, IDEAL FOR</p>
+        <ul>
+            <li>Dry, Rocky Environments</li>
+            <li>Backpacking</li>
+        </ul>
+
+        <button class="button">Add to Cart</button>
+        <p>Ships in 1-2 weeks</p>
+        <p>Free shipping on orders over $200</p>
+    </div>
+</div>

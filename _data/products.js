@@ -31,41 +31,31 @@ module.exports = async function () {
       },
       body: JSON.stringify({
         query: `
-            query($language: String!, $path: String!) {
-              catalogue(language: $language, path: $path) {
-                children {
-                  path
+          query ($language: String!, $path: String!) {
+            catalogue(language: $language, path: $path) {
+              children {
+                path
+                name
+                ... on Folder {
                   name
-
-                  ... on Folder {
-                    name
-                    path
-                  }
-                  
-                  ... on Product {
-                    defaultVariant {
-                      firstImage {
-                        url
-                        altText
-                      }
-                      price
-                      stock
-                    }
-
-                    variants {
-                      name
-                      price
-                      isDefault
-                      images {
-                        url
-                        altText
-                        key
+                  path
+                  children {
+                    ... on Product {
+                      variants {
+                        name
+                        price
+                        images {
+                          url
+                          altText
+                          key
+                        }
                       }
                     }
                   }
                 }
               }
-            }        
+            }
+          } 
           `,
         variables: {
           language: 'en',
@@ -75,7 +65,23 @@ module.exports = async function () {
     },
   ).then((res) => res.json());
 
-  const products = result?.data?.catalogue?.children ?? [];
-  // console.log(products);
+  const folders = result?.data?.catalogue?.children ?? [];
+  console.log(folders);
+
+  let products = [];
+
+  folders.forEach(folder => {
+    // console.log(folder.children);
+    const productArray = folder?.children.map(variantsItem => {
+      return variantsItem.variants[0];
+    });
+
+    // add productArray items to products
+    const updatedProducts = [...products, ...productArray];
+    products = updatedProducts;
+  });
+
+  console.log(products);
+
   return products;
 };

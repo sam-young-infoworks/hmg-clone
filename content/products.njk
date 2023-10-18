@@ -1,0 +1,10 @@
+---
+pagination:
+    data: products
+    size: 1
+    alias: product
+layout: layouts/base.njk
+permalink: "products/{{ product.name | slugify }}/"
+---
+
+{% include "layouts/product.njk" %}

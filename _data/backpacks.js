@@ -36,8 +36,8 @@ module.exports = async function () {
     },
   ).then((res) => res.json());
 
-  console.log(result);
+  // console.log(result);
   const backpacks = result?.data?.catalogue?.children ?? [];
-  console.log(backpacks);
+  // console.log(backpacks);
   return backpacks;
 };

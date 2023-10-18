@@ -1,0 +1,11 @@
+{%- css %}{% include "public/css/components/card/card-list.css" %}{%- endcss %}
+
+<div class="card-list">
+{% for product in productList %}
+  {% set item = product %}
+  {% set src = item.images[0].url %}
+  {% include "components/card/detailCard.njk"%}
+{% else %}
+  <li>No products</li>
+{% endfor %}
+</div>
