@@ -1,0 +1,10 @@
+{%- css %}{% include "public/css/components/card/card.css" %}{%- endcss %}
+
+<article class="card card--center">
+  <div class="card__image">
+    <a href=products/{{ item.name | slugify }}>
+      <image class="w-100" src={{ src }} alt="" />
+    </a>
+  </div>
+  <a class="button button-transparent button-link w-90 mb-2" href=products/{{ item.name | slugify }}>{{ item.name }}</a>
+</article>

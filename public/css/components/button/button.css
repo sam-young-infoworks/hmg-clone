@@ -1,0 +1,52 @@
+.button {
+  position: relative;
+  display: inline-block;
+  /* margin: 1em; */
+  padding: 1em 2em;
+  border: 0;
+  border-radius: 35px;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  white-space: normal;
+}
+
+.button-transparent {
+  background-color: transparent;
+  border: 1px solid var(--color-gray-100);
+  color: var(--color-gray-100);
+
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  min-width: auto;
+  max-width: 100%;
+  font-weight: 700;
+  transition: all .3s;
+}
+
+.button-transparent:hover {
+  color: var(--color-gray-0);
+  background-color: var(--color-gray-100);
+}
+
+.button-link {
+  text-decoration: none;
+}
+
+.button-link:link {
+  color: var(--color-gray-100);
+}
+
+.button-link:visited {
+  color: var(--color-gray-100);
+}
+
+.button-link:hover {
+  color: var(--color-gray-0);
+}
+
+.button-link:active {
+  color: var(--color-gray-0);
+}

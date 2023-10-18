@@ -1,0 +1,11 @@
+{%- css %}{% include "public/css/components/card/card-list.css" %}{%- endcss %}
+
+<div class="card-list">
+{% for backpack in backpacksList %}
+  {% set item = backpack %}
+  {% set src = item.variants[0].images[0].url %}
+  {% include "components/card/card.njk"%}
+{% else %}
+  <li>This would display if the 'backpack' collection were empty</li>
+{% endfor %}
+</div>
